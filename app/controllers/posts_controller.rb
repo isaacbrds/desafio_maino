@@ -7,6 +7,7 @@ class PostsController < ApplicationController
 
   def new  
     @post = Post.new
+    @post.tags.build
   end
 
   def create
@@ -40,7 +41,7 @@ class PostsController < ApplicationController
   private 
 
   def post_params 
-    params.require(:post).permit(:title, :content, :user_id)
+    params.require(:post).permit(:title, :content, :user_id, tags_attributes: %i[id title _destroy])
   end
   
   def set_post 
