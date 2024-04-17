@@ -47,6 +47,7 @@ gem "bootsnap", require: false
 # gems para o projeto
 gem 'devise'
 gem 'devise-i18n'
+gem 'kaminari', '~> 1.2.1'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
