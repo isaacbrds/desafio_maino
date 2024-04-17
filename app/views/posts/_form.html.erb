@@ -23,6 +23,10 @@
     <% end %>
 </div>
 
+<div class="links">
+  <%= link_to_add_association 'add tags', form, :tags %>
+</div>
+
 <div class="mt-2">
   <%= form.submit 'Enviar', class: 'btn btn-primary' %>
 </div>
