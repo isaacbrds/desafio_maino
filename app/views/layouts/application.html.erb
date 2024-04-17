@@ -12,7 +12,16 @@
   </head>
 
   <body>
-    <%= render 'shared/navigation' %>
-    <%= yield %>
+     <div class="container">
+      <%= render 'shared/navigation'%>
+      <% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>" role="alert">
+              <%= value %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+      
+      <%= yield %>
+    </div>
   </body>
 </html>
