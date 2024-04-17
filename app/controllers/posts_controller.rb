@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:edit, :destroy, :update, :show]
+  before_action :set_post, only: [:edit, :destroy, :update]
   before_action :authenticate_user!, except: [:show]
   def index
     @posts = Post.all
@@ -29,7 +29,9 @@ class PostsController < ApplicationController
     end
   end
 
-  def show;  end
+  def show  
+    @post = Post.includes(:user).find(params[:id])
+  end
 
   def destroy 
     @post.destroy

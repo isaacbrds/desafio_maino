@@ -1,0 +1,8 @@
+ 
+<h2>Add a comment: </h2>
+<%= form_with model: [@post, @post.comments.build ] do |f| %>
+      <div class="form-group">
+      <%= f.text_area :content, rows: 3, class: 'form-control'%>
+            <%= f.submit "Comment", class: 'btn btn-dark mt-3 ' %>
+      </div>
+<% end %>
