@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def flash_class(level)
     case level
-      when 'alert'
+    when 'alert'
       'alert alert-warning alert-dismissible fade show'
-      when 'notice'
+    when 'notice'
       'alert alert-success alert-dismissible fade show'
-      when 'error'
+    when 'error'
       'alert alert-danger alert-dismissible fade show'
-      else
+    else
       'alert alert-primary alert-dismissible fade show'
     end
   end
