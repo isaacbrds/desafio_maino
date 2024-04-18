@@ -38,6 +38,16 @@ class PostsController < ApplicationController
     @post.destroy
     redirect_to posts_path, notice: 'post was successfully detroyed!'
   end
+
+  def import
+    @arquivo = params[:arquivo]
+    response = check_extension(@arquivo)
+    if response
+      redirect_to posts_path, notice: t('post was successfully imported!')
+    else
+      redirect_to posts_path, notice: t('post was not successfully imported!')
+    end
+  end
   private 
 
   def post_params 
@@ -46,5 +56,21 @@ class PostsController < ApplicationController
   
   def set_post 
     @post = Post.find(params[:id])
+  end
+  
+  def check_extension(arquivo)
+    extension = ['.txt']
+    if extension.include? File.extname(arquivo)
+      File.open(arquivo) do |f|
+        f.each_with_index do |linha, i|
+          coluna = linha.split(',')
+          title = "#{coluna[0]} - #{i}"
+          user_id = coluna[1]
+          HardWorker.perform_async(title, user_id)
+        end
+      end
+      return response
+    end
+    false
   end
 end
