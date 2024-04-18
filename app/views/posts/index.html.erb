@@ -1,4 +1,11 @@
 <section class="py-3">
+  <%= form_tag(posts_path, method: :get) do %>
+  <div class="form-group mt-3 col-sm-10">
+    Filtar por Tags: 
+      <%= text_field_tag(:tags) %>
+      <%= submit_tag(t("Search"), class: "btn btn-danger") %>
+    <% end %>
+  </div>
   <table class="table">
     <thead>
       <tr>
