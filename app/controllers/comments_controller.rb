@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
-    before_action :set_post
+  before_action :set_post
 
   def create
     if current_user
