@@ -4,7 +4,13 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[edit destroy update]
   before_action :authenticate_user!, except: [:show]
   def index
-    @posts = Post.all
+    @posts = Post.where(user: current_user)
+    
+    tag_titles = params[:tags]
+    
+    if tag_titles.present?
+      @posts = @posts.joins(:tags).where(tags: { title: tag_titles }).distinct 
+    end
   end
 
   def new
@@ -16,7 +22,7 @@ class PostsController < ApplicationController
     @post = Post.create(post_params)
     @post.user = current_user
     if @post.save
-      redirect_to posts_path, notice: 'post was successfully created!'
+      redirect_to posts_path, notice: t('post was successfully created!')
     else
       render :new
     end
@@ -26,7 +32,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to posts_path, notice: 'post was successfully updated!'
+      redirect_to posts_path, notice: t('post was successfully updated!')
     else
       render :edit
     end
@@ -38,7 +44,7 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to posts_path, notice: 'post was successfully detroyed!'
+    redirect_to posts_path, notice: t('post was successfully detroyed!')
   end
 
   def import
@@ -59,6 +65,7 @@ class PostsController < ApplicationController
 
   def set_post
     @post = Post.find(params[:id])
+    redirect_to posts_path, alert: t("you don't have permission to edit this") unless @post.user == current_user
   end
 
   def check_extension(arquivo)
