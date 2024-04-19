@@ -3,12 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
+  
+  before(:each) do
+    @current_user = create(:user)
+    sign_in @current_user
+  end
+  
   context 'GET #index' do
-    let(:user) { create(:user) }
-    let(:post) { create(:post, user_id: user.id) }
-
+    let(:post) { create(:post, user_id: @current_user.id) }
+    
     it 'renders the index template' do
-      sign_in(user)
       get :index
       expect(response).to have_http_status(200)
       expect(response).to render_template('index')
@@ -30,10 +34,8 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'GET #new' do
-    let(:user) { create(:user) }
     let(:post) { create(:post) }
     it 'renders the new template' do
-      sign_in user
       get :new
       expect(response).to have_http_status(200)
       expect(response).to render_template('new')
@@ -41,19 +43,17 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'POST #create' do
-    let(:user) { create(:user) }
     let!(:params) do
-      { title: 'Meu Post', content: 'Meu post maroto', user_id: user.id }
+      { title: 'Meu Post', content: 'Meu post maroto', user_id: @current_user.id }
     end
+
     it 'render succeful message' do
-      sign_in user
       post :create, params: { post: params }
       expect(flash[:notice]).to eq('O post foi criado com sucesso')
       expect(response).to have_http_status(302)
     end
 
     it 'not create a post' do
-      sign_in user
       params = { title: 'Meu Post' }
       post :create, params: { post: params }
       expect(response).to render_template(:new)
@@ -61,10 +61,8 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'GET #edit' do
-    let(:user) { create(:user) }
-    let(:post) { create(:post, user_id: user.id) }
+    let(:post) { create(:post, user_id: @current_user.id) }
     it 'renders the edit template' do
-      sign_in user
       get :edit, params: { id: post.id }
       expect(response).to have_http_status(200)
       expect(response).to render_template('edit')
@@ -72,21 +70,18 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'PUT #update' do
-    let(:user) { create(:user) }
     let!(:post)  do
-      create(:post, user_id: user.id)
+      create(:post, user_id: @current_user.id)
     end
     it 'render succeful message' do
       params = { title: 'Meu post atualizado' }
-      sign_in user
       put :update, params: { id: post.id, post: params }
       post.reload
       expect(post.title).to eq(params[:title])
       expect(flash[:notice]).to eq('O post foi atualizado com sucesso')
     end
 
-    it 'not update a post' do
-      sign_in user
+    it 'not update a post' do  
       params = { title: nil }
       put :update, params: { id: post.id, post: params }
       expect(response).to render_template(:edit)
@@ -94,12 +89,10 @@ RSpec.describe PostsController, type: :controller do
   end
 
   context 'DELETE #destroy' do
-    let(:user) { create(:user) }
     let!(:post)  do
-      create(:post, user_id: user.id)
+      create(:post, user_id: @current_user.id)
     end
     it 'render succeful message' do
-      sign_in user
       delete :destroy, params: { id: post.id }
       expect(flash[:notice]).to eq('O post foi destruído com sucesso')
     end
