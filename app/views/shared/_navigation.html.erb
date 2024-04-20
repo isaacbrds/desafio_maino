@@ -1,14 +1,14 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Blog Mainô</a>
+        <a class="navbar-brand" href="/"> <img src="https://d335luupugsy2.cloudfront.net/cms/files/6382/1589384196/$cxu3cj3kjhw" alt="Icone Mainô" height="48"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"><img src="https://d335luupugsy2.cloudfront.net/cms/files/6382/1589384196/$cxu3cj3kjhw" alt="Icone Mainô"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <% if current_user %>
                 <li class="nav-item">
-                        <%= link_to "#{t('My Posts')}", posts_path , class: "dropdown-item"%>
+                        <%= link_to "#{t('My Posts')}", posts_path , class: "dropdown-item" %>
                 </li>
                 <% end %>
                 
